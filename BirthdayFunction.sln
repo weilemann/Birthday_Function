@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BirthdayFunction", "BirthdayFunction.csproj", "{7CF33C13-6D3C-482E-8A70-2ACC38A0CAC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirthdayFunction", "BirthdayFunction.csproj", "{7CF33C13-6D3C-482E-8A70-2ACC38A0CAC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

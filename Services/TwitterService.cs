@@ -82,7 +82,7 @@ namespace BirthdayFunction.Services
                     catch (Exception ex) // return unknown error
                     {
                         // log exception somewhere
-                        return "Unknown error uploading image to Twitter";
+                        return $"Unknown error uploading image to Twitter. {ex.Message}";
                     }
                 }
                 mediaID = rezImageJson["media_id_string"].Value<string>();
@@ -104,7 +104,7 @@ namespace BirthdayFunction.Services
                     catch (Exception ex) // return unknown error
                     {
                         // log exception somewhere
-                        return "Unknown error sending post to Twitter";
+                        return $"Unknown error sending post to Twitter. {ex.Message}";
                     }
                 }
 
@@ -113,7 +113,7 @@ namespace BirthdayFunction.Services
             catch (Exception ex)
             {
                 // log exception somewhere
-                return "Unknown error publishing to Twitter";
+                return $"Unknown error publishing to Twitter. {ex.Message}";
             }
         }
 
