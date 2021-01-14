@@ -23,20 +23,24 @@ namespace BirthdayFunction
 
             Congratulations congratulations = new Congratulations();
 
-            string message = congratulations.GetRandomCongratulations("Jane", "John Doe");
+            string message = congratulations.GetRandomCongratulations("Beatriz", "Luana Silva");
 
             var emailClient = new EmailService(EmailUsername, EmailPassword);
 
-            emailClient.SendEmail("John Doe", "jane_doe@gmail.com", "Feliz Aniversário", message);
+            emailClient.SendEmail("Luana", "beatrizvilardo@hotmail.com", "Feliz Aniversário", message);
 
-            var twitter = new TwitterService(
-                AppKey,
-                AppKeySecret,
-                AccessKey,
-                AccessKeySecret
+            if (message.Length <= 240)
+            {
+                var twitter = new TwitterService(
+                    AppKey,
+                    AppKeySecret,
+                    AccessKey,
+                    AccessKeySecret
                 );
 
-            await twitter.TweetText(message, string.Empty);
+                await twitter.TweetText(message, string.Empty);
+            }
+
         }
     }
 }
