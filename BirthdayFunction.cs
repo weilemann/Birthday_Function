@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Threading.Tasks;
 using BirthdayFunction.Services;
 using BirthdayFunction.Templates;
@@ -21,26 +22,42 @@ namespace BirthdayFunction
         {
             log.LogInformation($"Birthday Function executed at: {DateTime.Now}");
 
-            Congratulations congratulations = new Congratulations();
+            DBService database = new DBService();
 
-            string message = congratulations.GetRandomCongratulations("Beatriz", "Luana Silva");
+            var table = database.GetBirthdayPersons();
 
-            var emailClient = new EmailService(EmailUsername, EmailPassword);
-
-            emailClient.SendEmail("Luana", "beatrizvilardo@hotmail.com", "Feliz Aniversário", message);
-
-            if (message.Length <= 240)
+            foreach (DataRow row in table.Rows)
             {
-                var twitter = new TwitterService(
-                    AppKey,
-                    AppKeySecret,
-                    AccessKey,
-                    AccessKeySecret
-                );
+                string firstName = row["Name"].ToString().Split(" ")[0];
+                string email = row["Email"].ToString();
+                string twitterName = row["TwitterName"].ToString();
+                string message;
 
-                await twitter.TweetText(message, string.Empty);
+                Congratulations congratulations = new Congratulations();
+
+                if (!string.IsNullOrEmpty(twitterName))
+                {
+                     message = congratulations.GetRandomCongratulations(twitterName, "John");
+
+                    if (message.Length <= 240)
+                    {
+                        var twitter = new TwitterService(
+                            AppKey,
+                            AppKeySecret,
+                            AccessKey,
+                            AccessKeySecret
+                        );
+
+                        await twitter.TweetText(message, string.Empty);
+                    }
+                }
+
+                message = congratulations.GetRandomCongratulations(firstName, "John Doe");
+
+                var emailClient = new EmailService(EmailUsername, EmailPassword);
+
+                emailClient.SendEmail("John Doe", email, "Feliz Aniversário", message);
             }
-
         }
     }
 }
