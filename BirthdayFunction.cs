@@ -18,7 +18,7 @@ namespace BirthdayFunction
         private static readonly string EmailPassword = Environment.GetEnvironmentVariable("Email_Password");
 
         [FunctionName("BirthdayFunction")]
-        public static async Task RunAsync([TimerTrigger("0/10 * * * * *")] TimerInfo timer, ILogger log)
+        public static async Task RunAsync([TimerTrigger("0 0 0 ? * * *")] TimerInfo timer, ILogger log)
         {
             log.LogInformation($"Birthday Function executed at: {DateTime.Now}");
 
