@@ -37,26 +37,44 @@ namespace BirthdayFunction
 
                 if (!string.IsNullOrEmpty(twitterName))
                 {
-                     message = congratulations.GetRandomCongratulations(twitterName, "John");
-
-                    if (message.Length <= 240)
+                    try
                     {
-                        var twitter = new TwitterService(
-                            AppKey,
-                            AppKeySecret,
-                            AccessKey,
-                            AccessKeySecret
-                        );
+                        message = congratulations.GetRandomCongratulations(twitterName, "John");
 
-                        await twitter.TweetText(message, string.Empty);
+                        if (message.Length <= 240)
+                        {
+                            var twitter = new TwitterService(
+                                AppKey,
+                                AppKeySecret,
+                                AccessKey,
+                                AccessKeySecret
+                            );
+
+                            await twitter.TweetText(message, string.Empty);
+
+                            log.LogInformation($"Birthday message to {row["Name"]} was posted on Twitter at {DateTime.Now}");
+                        }
                     }
+                    catch(Exception ex)
+                    {
+                        log.LogError($"An error has occurred during Twitter message sending: {ex.Message}");
+                    }
+
                 }
 
                 message = congratulations.GetRandomCongratulations(firstName, "John Doe");
 
-                var emailClient = new EmailService(EmailUsername, EmailPassword);
+                try
+                {
+                    var emailClient = new EmailService(EmailUsername, EmailPassword);
+                    emailClient.SendEmail("John Doe", email, "Feliz Aniversário", message);
+                    log.LogInformation($"Birthday message sent to {row["Name"]} at {DateTime.Now}");
+                }
+                catch(Exception ex)
+                {
+                    log.LogError($"An error has occurred during Email sending: {ex.Message}");
+                }
 
-                emailClient.SendEmail("John Doe", email, "Feliz Aniversário", message);
             }
         }
     }
